@@ -6,10 +6,12 @@ import (
 	"os/signal"
 
 	"github.com/gabrielgqa/api-golang/internal/server"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
-	serv, err := server.New("3000")
+	port := os.Getenv("PORT")
+	serv, err := server.New(port)
 	if err != nil {
 		log.Fatal(err)
 	}
