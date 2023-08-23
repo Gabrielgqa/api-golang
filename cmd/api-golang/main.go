@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/gabrielgqa/api-golang/internal/data"
 	"github.com/gabrielgqa/api-golang/internal/server"
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -16,6 +17,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	d := data.New()
+	if err := d.DB.Ping(); err != nil {
+		log.Fatal(err)
+	}
+
 	go serv.Start()
 
 	// Wait for an in interrupt.
@@ -24,4 +30,5 @@ func main() {
 	<-c
 
 	serv.Close()
+	d.Close()
 }
